@@ -39,9 +39,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Chainable = {
-  option(key: string, value: any): any;
-  get(): any;
+type Chainable<T = {}> = {
+  option<K extends PropertyKey, V>(
+    key: K extends keyof T ? never : K,
+    value: V
+  ): Chainable<Record<K, V> & T>;
+  get(): T;
 };
 
 /* _____________ Test Cases _____________ */
