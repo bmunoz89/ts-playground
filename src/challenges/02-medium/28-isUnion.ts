@@ -1,7 +1,7 @@
 /*
   1097 - IsUnion
   -------
-  by null (@bencor) #medium
+  by null (@bencor) #medium #union
 
   ### Question
 
@@ -20,7 +20,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsUnion<T> = T extends infer L | infer R ? true | false;
+// Not mine
+type IsUnion<T, U = T> = [T] extends [never]
+  ? false
+  : T extends U
+  ? [U] extends [T]
+    ? false
+    : true
+  : true;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from "@type-challenges/utils";
@@ -37,7 +44,8 @@ type cases = [
   Expect<Equal<IsUnion<string | never>, false>>,
   Expect<Equal<IsUnion<string | unknown>, false>>,
   Expect<Equal<IsUnion<string | any>, false>>,
-  Expect<Equal<IsUnion<string | "a">, false>>
+  Expect<Equal<IsUnion<string | "a">, false>>,
+  Expect<Equal<IsUnion<never>, false>>
 ];
 
 /* _____________ Further Steps _____________ */
