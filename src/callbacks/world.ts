@@ -1,7 +1,15 @@
-import { CallbackDef } from "src/getCallback";
+export function nested(ctx: { getVars: () => { var1: string; var2: string } }) {
+  return ({ data }: { data: { val2: number } }) => {
+    const vars = ctx.getVars();
+    return `${vars.var1} ${vars.var2} ${data.val2}`;
+  };
+}
 
-export const world: CallbackDef<{ message: string }, string> = function ({
-  message,
+export function asyncNested(ctx: {
+  asyncGetVars: () => Promise<{ var1: string; var2: string }>;
 }) {
-  return `${message} world`;
-};
+  return async ({ data }: { data: { val2: number } }) => {
+    const vars = await ctx.asyncGetVars();
+    return `${vars.var1} ${vars.var2} ${data.val2}`;
+  };
+}
