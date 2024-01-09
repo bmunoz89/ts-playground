@@ -27,8 +27,6 @@ type List = Decorated &
     value: string;
   };
 
-
-
 // expands object types one level deep
 type Expand<T> = T extends (...args: infer A) => infer R
   ? (...args: Expand<A>) => Expand<R>
@@ -46,7 +44,7 @@ export type ExpandRecursively<T> = T extends (...args: infer A) => infer R
   : T;
 
 type ExpandedList = Expand<List>;
-/*
+/**
 type ExpandedList = {
   name: string;
   type: "text";
@@ -59,7 +57,7 @@ type ExpandedList = {
 */
 
 type ExpandedRecursivelyList = ExpandRecursively<List>;
-/*
+/**
 type ExpandedRecursivelyList = {
   name: string;
   type: "text";
@@ -74,5 +72,17 @@ type ExpandedRecursivelyList = {
 */
 
 type ExpandedSomeFunction = Expand<SomeFunction>;
+/**
+(...args: string[]) => {
+    extras: object;
+    error: boolean;
+}
+ */
 
 type ExpandRecursivelySomeFunction = ExpandRecursively<SomeFunction>;
+/**
+(...args: string[]) => {
+    extras: object;
+    error: boolean;
+}
+ */
