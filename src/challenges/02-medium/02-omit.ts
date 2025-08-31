@@ -31,7 +31,7 @@
 /* _____________ Your Code Here _____________ */
 
 type MyOmit<T, K extends keyof T> = {
-  [Key in Exclude<keyof T, K>]: T[Key];
+  [Key in keyof T as Key extends K ? never : Key]: T[Key];
 };
 
 /* _____________ Test Cases _____________ */

@@ -20,7 +20,7 @@ type DerivePathAndSettingsUnionReturn<
   K extends keyof T & string = keyof T & string
 > = K extends K
   ? T[K] extends CallbackFn
-    ? Parameters<T[K]>[1] extends undefined
+    ? Parameters<T[K]>[1] extends never
       ? {
           name: `${Path}${K}`;
           returnType: ReturnType<ReturnType<T[K]>>;
@@ -44,7 +44,7 @@ function $callback<
 >(
   name: N,
   // This makes the settings object optional depending on the callback
-  ...settings: S extends never ? [undefined?] : [S]
+  ...settings: S extends void ? [] : [settings: S]
 ): R["returnType"] {
   const callbackFn = get(callbacksFns, name) as CallbackFn;
   const fn = callbackFn(
